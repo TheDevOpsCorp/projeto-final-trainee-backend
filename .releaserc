@@ -13,7 +13,6 @@
       "changelogTitle": "# Histórico de Mudanças\n\nTodas as mudanças notáveis neste projeto serão documentadas neste arquivo. Consulte [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/) para diretrizes de commits."
     }
     ],
-    "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
