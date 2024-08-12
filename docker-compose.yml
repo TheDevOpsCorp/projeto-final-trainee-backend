@@ -1,0 +1,33 @@
+name: projeto-final
+
+services:
+  database:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql/data
+      - ./docker/postgres/projeto-final-ddl.sql:/docker-entrypoint-initdb.d/initdb-projeto-final-ddl.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - projeto-final
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./docker/pgadmin:/var/lib/pgadmin
+    environment:
+          PGADMIN_DEFAULT_EMAIL: devops@devops.com
+          PGADMIN_DEFAULT_PASSWORD: 123
+          PGADMIN_LISTEN_PORT: 8080
+          PGADMIN_CONFIG_SERVER_MODE: 'False'
+          PGADMIN_MASTER_PASSWORD_REQUIRED: 'False'
+    networks:
+      - projeto-final
+networks:
+  projeto-final:
+    driver: bridge 
