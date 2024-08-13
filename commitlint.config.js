@@ -1,4 +1,7 @@
+
 export default
-{ extends: ['@commitlint/config-conventional'],
-  ignores: [(commit) => commit.includes('[skip ci]')],
- }
+{ 
+    extends: ['@commitlint/config-conventional'],
+    //@ts-ignore
+    ignores: [(commit) => commit.includes('[skip ci]')],
+}
