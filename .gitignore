@@ -1,3 +1,5 @@
+docker/postgres/data
+docker/pgadmin/
 # Logs
 logs
 *.log
