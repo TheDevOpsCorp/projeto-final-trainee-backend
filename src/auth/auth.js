@@ -11,10 +11,18 @@ const JWT_SECRET = `${process.env['JWT_SECRET']}`;
  * @returns {String}
  */
 function signJWT(payload, options = {}) {
-  options.expiresIn = options.expiresIn || dafaultExpirationDate;
-  options.subject = payload.id;
-  payload.iat = Math.floor(Date.now() / 1000) - 30;
-  return jwt.sign(payload, JWT_SECRET, options);
+    options.expiresIn = options.expiresIn || dafaultExpirationDate;
+    options.subject = payload.id;
+    payload.iat = Math.floor(Date.now() / 1000) - 30;
+    return jwt.sign(payload, JWT_SECRET, options);
 }
 
-export { signJWT };
+/**
+ * @param {String} hash
+ * @param {String} password
+ * */
+function comparePasswordFromHash(password, hash) {
+    return password === hash;
+}
+
+export { signJWT, comparePasswordFromHash };
