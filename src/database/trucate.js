@@ -1,4 +1,4 @@
-import { pool } from "./databse.js";
+import { pool } from './database.js';
 
 /**
  * @param {String} table
@@ -9,8 +9,8 @@ function truncateTable(table) {
 
 async function truncateUsersTable() {
     const query = truncateTable('users');
-    
-    await pool.query(query)
+
+    await pool.query(query);
 }
 
 export { truncateUsersTable };
