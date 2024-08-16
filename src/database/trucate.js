@@ -3,6 +3,7 @@ import { pool } from './database.js';
 /**
  * @param {String} table
  * */
+
 function truncateTable(table) {
     return `TRUNCATE TABLE ${table}`;
 }
