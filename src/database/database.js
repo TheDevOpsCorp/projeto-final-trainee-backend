@@ -4,11 +4,11 @@ const { Pool } = pg;
 
 //@ts-ignore
 const poolConfig = {
-  user: 'postgres',
-  password: 'postgres',
-  host: process.env['POSTGRES_HOST'],
-  port: process.env['POSTGRES_PORT'],
-  database: process.env['POSTGRES_DATABASE']
+    user: 'postgres',
+    password: 'postgres',
+    host: process.env['POSTGRES_HOST'],
+    port: process.env['POSTGRES_PORT'],
+    database: process.env['POSTGRES_DATABASE'],
 };
 
 //@ts-ignore
