@@ -1,7 +1,7 @@
-import { configDotenv } from "dotenv";
+import { configDotenv } from 'dotenv';
 
-configDotenv()
+configDotenv();
 
-export default ()=>{
-    configDotenv()
-}
+export default () => {
+    configDotenv();
+};
