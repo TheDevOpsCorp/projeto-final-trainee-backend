@@ -14,12 +14,12 @@ jobs:
     steps:
     - name: Verificando Envs
       run: | 
-        echo ${POSTGRES_USER}
-        echo ${POSTGRES_PASSWORD}
-        echo ${POSTGRES_HOST}
-        echo ${POSTGRES_PORT}
-        echo ${POSTGRES_DATABASE}
-        echo ${secrets.JWT_SECRET}
+        echo "$POSTGRES_USER"
+        echo "$POSTGRES_PASSWORD"
+        echo "$POSTGRES_HOST"
+        echo "$POSTGRES_PORT"
+        echo "$POSTGRES_DATABASE"
+        echo "$JWT_SECRET"
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
 
