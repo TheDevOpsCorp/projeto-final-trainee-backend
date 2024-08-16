@@ -8,16 +8,26 @@ jobs:
     steps:
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
+
     - name: Execuntando Docker Compose
       uses: hoverkraft-tech/compose-action@v2.0.1
       with:
         services: database
+
     - name: Configurando Node.Js
       uses: actions/setup-node@v4.0.3
       with:
         node-version: '20'
+      env: 
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_PORT: ${POSTGRES_PORT}
+        POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+        JWT_SECRET: ${JWT_SECRET}
+
     - name: Instalando Dependencias
       run: npm clean-install
+
     - name: Executando Testes
       run: npm run test
-
