@@ -19,9 +19,7 @@ app.use('/', router);
 
 //entrypoint
 app.listen(port, () => {
-    console.log('Servidor ativo em: http://localhost:3000');
+  console.log('Servidor ativo em: http://localhost:3000');
 });
-
-console.log(process.env)
 
 export default app;
