@@ -18,6 +18,13 @@ jobs:
       uses: actions/setup-node@v4.0.3
       with:
         node-version: '20'
+
+
+    - name: Instalando Dependencias
+      run: npm clean-install
+
+    - name: Executando Testes
+      run: npm run test
       env: 
         POSTGRES_USER: ${POSTGRES_USER}
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -25,9 +32,3 @@ jobs:
         POSTGRES_PORT: ${POSTGRES_PORT}
         POSTGRES_DATABASE: ${POSTGRES_DATABASE}
         JWT_SECRET: ${JWT_SECRET}
-
-    - name: Instalando Dependencias
-      run: npm clean-install
-
-    - name: Executando Testes
-      run: npm run test
