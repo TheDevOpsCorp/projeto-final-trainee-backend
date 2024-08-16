@@ -8,6 +8,8 @@ jobs:
     steps:
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
+    - name: Execuntando Docker Compose
+      uses: hoverkraft-tech/compose-action@v2.0.1
     - name: Configurando Node.Js
       uses: actions/setup-node@v4.0.3
       with:
