@@ -42,6 +42,9 @@ jobs:
     - name: Aguardando inicialização do banco de dados
       run: sleep 15s
 
+    - name: Verificando pgsql
+      run: psql -c "SHOW listen_addresses;
+
     - name: Verificar se o banco de dados está acessível
       run: |
         pg_isready -h localhost -p ${{ env.POSTGRES_PORT }} -U ${{ env.POSTGRES_USER }}
