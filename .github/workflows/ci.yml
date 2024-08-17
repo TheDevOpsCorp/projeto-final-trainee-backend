@@ -34,19 +34,14 @@ jobs:
         echo "$POSTGRES_PORT"
         echo "$POSTGRES_DATABASE"
         echo "$JWT_SECRET"
+
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
-
-    - name: Execuntando Docker Compose
-      uses: hoverkraft-tech/compose-action@v2.0.1
-      with:
-        services: database
 
     - name: Configurando Node.Js
       uses: actions/setup-node@v4.0.3
       with:
         node-version: '20'
-
 
     - name: Instalando Dependencias
       run: npm clean-install
