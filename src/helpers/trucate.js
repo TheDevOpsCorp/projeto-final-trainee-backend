@@ -1,17 +1,17 @@
-import { pool } from './database.js';
+import { pool } from '../database/database.js';
 
 /**
  * @param {String} table
  * */
 
 function truncateTable(table) {
-    return `TRUNCATE TABLE ${table}`;
+  return `TRUNCATE TABLE ${table} CASCADE;`;
 }
 
 async function truncateUsersTable() {
-    const query = truncateTable('users');
+  const query = truncateTable('users');
 
-    await pool.query(query);
+  await pool.query(query);
 }
 
 export { truncateUsersTable };
