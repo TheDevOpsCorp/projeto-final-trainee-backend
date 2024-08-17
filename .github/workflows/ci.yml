@@ -20,10 +20,13 @@ jobs:
           - ./docker/postgres/projeto-final-ddl.sql:/docker-entrypoint-initdb.d/initdb-projeto-final-ddl.sql
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         env:
-          POSTGRES_USER: $POSTGRES_USER
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-          POSTGRES_DB: $POSTGRES_DATABASE
     steps:
 
     - name: Modificar permissões
@@ -42,4 +45,9 @@ jobs:
 
     - name: Executando Testes
       run: npm run test
-
+      env: 
+          POSTGRES_HOST: ${{env.POSTGRES_HOST}}
+          POSTGRES_PORT: ${{env.POSTGRES_PORT}}
+          POSTGRES_USER: ${{env.POSTGRES_USER}}
+          POSTGRES_PASSWORD: ${{env.POSTGRES_PASSWORD}}
+          POSTGRES_DATABASE: ${{env.POSTGRES_DATABASE}}
