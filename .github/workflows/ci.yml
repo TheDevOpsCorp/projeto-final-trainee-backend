@@ -43,7 +43,7 @@ jobs:
       run: sleep 15s
 
     - name: Verificando pgsql
-      run: psql -c "SHOW listen_addresses;
+      run: psql -c "SHOW listen_addresses;"
 
     - name: Verificar se o banco de dados está acessível
       run: |
