@@ -25,15 +25,6 @@ jobs:
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
           POSTGRES_DB: $POSTGRES_DATABASE
     steps:
-    - name: Verificando Envs
-      run: | 
-        echo "$POSTGRES_USER"
-        echo "$POSTGRES_PASSWORD"
-        echo "$POSTGRES_HOST"
-        echo "$POSTGRES_PORT"
-        echo "$POSTGRES_DATABASE"
-        echo "$JWT_SECRET"
-
     - name: Forçar remoção do diretório
       run: sudo rm -rf /home/runner/work/projeto-final-trainee-backend/projeto-final-trainee-backend/docker/postgres
 
@@ -48,8 +39,15 @@ jobs:
     - name: Instalando Dependencias
       run: npm clean-install
 
+    - name: Aguardando inicialização do banco de dados
+      run: sleep 15s
+
+    - name: Verificar se o banco de dados está acessível
+      run: |
+        pg_isready -h localhost -p ${{ env.POSTGRES_PORT }} -U ${{ env.POSTGRES_USER }}
+
     - name: Executando Testes
       env:
-        DATABASE_URL: postgres://user:password@localhost:5432/mydatabase
+        DATABASE_URL: postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DATABASE }}
       run: npm run test
 
