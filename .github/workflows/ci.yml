@@ -49,5 +49,7 @@ jobs:
       run: npm clean-install
 
     - name: Executando Testes
+      env:
+        DATABASE_URL: postgres://user:password@localhost:5432/mydatabase
       run: npm run test
 
