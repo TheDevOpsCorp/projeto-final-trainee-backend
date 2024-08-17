@@ -34,6 +34,9 @@ jobs:
         echo "$POSTGRES_DATABASE"
         echo "$JWT_SECRET"
 
+    - name: Forçar remoção do diretório
+      run: sudo rm -rf /home/runner/work/projeto-final-trainee-backend/projeto-final-trainee-backend/docker/postgres
+
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
 
