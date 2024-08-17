@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 import app from '../../src/index.js';
-//import { truncateUsersTable } from '../../src/database/trucate.js';
 import { pool } from '../../src/database/database.js';
 import { formatObject } from '../../src/helpers/general_helpers.js';
 import { truncateUsersTable } from '../../src/helpers/trucate.js';
