@@ -26,6 +26,9 @@ jobs:
           POSTGRES_DB: $POSTGRES_DATABASE
     steps:
 
+    - name: Modificar permissões
+      run: sudo chmod -R 777 /home/runner/work/projeto-final-trainee-backend/projeto-final-trainee-backend/docker
+
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
 
