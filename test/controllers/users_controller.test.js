@@ -35,6 +35,7 @@ describe('POST /usuario/login login', () => {
         const { body, status } = res;
         try {
           expect(status).toBe(200);
+          expect(body).toHaveProperty('token');
         } catch (err) {
           throw new Error(`
                         body: \n${formatObject(body)}\n
