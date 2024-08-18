@@ -19,7 +19,12 @@ const updatePostById = async (id_posts, title, body, user_id) => {
   const values = [title, body, id_posts, user_id];
   try {
     const result = await pool.query(query, values);
-    return result.rows[0];
+
+    //se nenhuma linha foi afetada, postagem não encontrada ou usuario nao autorizado
+   if(result.rows[0]===0){
+    return null;
+   }
+   return result.rows[0];
   } catch (error) {
     throw error;
   }
