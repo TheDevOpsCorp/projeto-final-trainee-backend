@@ -17,7 +17,7 @@ jobs:
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
 
-    - name: Docker Compose Action
+    - name: Configurando Docker Compose
       uses: hoverkraft-tech/compose-action@v2.0.1
       with:
         services: database
