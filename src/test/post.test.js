@@ -46,7 +46,7 @@ describe("POST /post", () => {
         .expect((res) => {
           let { message } = res.body;
           // @ts-ignore
-          expect(message).toBe("Preencha todos os dados");
+          expect(message).toBe("400 : preencha todos os dados");
         });
 
       
