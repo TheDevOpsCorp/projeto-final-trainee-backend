@@ -12,26 +12,12 @@ env:
 
 jobs:
   CI:
-    # services:
-    #   database:
-    #     image: postgres:16
-    #     ports:
-    #       - 5432:5432
-    #     volumes:
-    #       - ./docker/postgres/projeto-final-ddl.sql:/docker-entrypoint-initdb.d/init-projeto-final-db.sql
-    #     env:
-    #       POSTGRES_USER: 'postgres'
-    #       POSTGRES_PASSWORD: 'postgres'
-
     runs-on: ubuntu-latest
     steps:
-    # - name: Permissões
-    #   run: sudo chmod -R 777 ./docker
-
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
       
-    - name: Configurando Docker Compose
+    - name: Iniciando Docker Compose
       uses: hoverkraft-tech/compose-action@v2.0.1
       with:
         services: database
