@@ -9,7 +9,7 @@ describe("POST /post", () => {
 
     // @ts-ignore
     it("201:post criado com sucesso", async () => {
-      let user  = await pool.query('INSERT INTO users(username,password,created_at) VALUES (lucas,lucas,NOW())')
+      let user  = await pool.query('INSERT INTO users (username,password,created_at) VALUES (\'lucas\',\'lucas\',NOW())')
       let post = {
         user_id:user.rows[0].id,
         title: "davi",
