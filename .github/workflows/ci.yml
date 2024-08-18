@@ -40,7 +40,7 @@ jobs:
     - name: Executando Testes
       run: npm run test
       env: 
-          POSTGRES_HOST: database
+          POSTGRES_HOST: ${{env.POSTGRES_HOST}}
           POSTGRES_PORT: ${{env.POSTGRES_PORT}}
           POSTGRES_USER: ${{env.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{env.POSTGRES_PASSWORD}}
