@@ -1,14 +1,17 @@
 // @ts-ignore
 import supertest from "supertest";
 import app from "../index.js";
+import pool from "../database/conection.js";
 
 
 // @ts-ignore
 describe("POST /post", () => {
+
     // @ts-ignore
     it("201:post criado com sucesso", async () => {
+      let user  = await pool.query('INSERT INTO users(username,password,created_at) VALUES (lucas,lucas,NOW())')
       let post = {
-        user_id:2,
+        user_id:user.rows[0].id,
         title: "davi",
         body: "lucasemanoel",
         date:"2024-08-15 13:45:00"
@@ -32,6 +35,7 @@ describe("POST /post", () => {
 
     // @ts-ignore
     it("400:faltando dados",async ()=>{
+
       let post = {
         user_id:2,
         title: "",
