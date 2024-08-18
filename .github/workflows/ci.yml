@@ -13,18 +13,15 @@ env:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    services:
-      database:
-        image: postgres:16
-        volumes:
-          - ./docker/postgres/projeto-final-ddl.sql:/docker-entrypoint-initdb.d/initdb-projeto-final-ddl.sql
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_PASSWORD: ${{env.POSTGRES_PASSWORD}}
     steps:
     - name: Modificar permissões
       run: sudo chmod -R 777 /home/runner/work/projeto-final-trainee-backend/projeto-final-trainee-backend/docker
+
+    - name: Docker Compose Action
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        services: database
+        compose-file: ./docker-compose.yml
 
     - name: Verificação do Repositorio
       uses: actions/checkout@v4.1.7
