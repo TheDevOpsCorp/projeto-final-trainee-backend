@@ -12,7 +12,7 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "posts" (
-  "id" integer PRIMARY KEY NOT NULL,
+  "id" serial PRIMARY KEY NOT NULL,
   "title" varchar NOT NULL,
   "body" text NOT NULL,
   "user_id" integer NOT NULL,
