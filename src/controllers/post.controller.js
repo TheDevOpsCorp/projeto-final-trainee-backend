@@ -6,7 +6,7 @@ export default {
         // @ts-ignore
         let {user_id,title,body,date} = req.body
         if(!user_id||!title||!body){
-            res.status(400).json({message:"400 : preencha todos os dados"})
+             return res.status(400).json({message:"400 : preencha todos os dados"})
         }
         try {
             let post = await pool.query('INSERT INTO posts (title,body,user_id,created_at) VALUES($1,$2,$3,$4)',[title,body,user_id,date])
