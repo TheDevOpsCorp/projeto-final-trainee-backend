@@ -24,7 +24,7 @@ describe("Edição de Postagem", () => {
 
   test("Deve editar uma postagem existente", async () => {
     const response = await request(app)
-      .patch(`/post/${post_Id}`) 
+      .patch(`/post/${post_Id}`)
       .send({ title: "Post Editado", body: "Este é o corpo editado." });
 
     expect(response.status).toBe(200);
@@ -55,13 +55,13 @@ describe("Edição de Postagem", () => {
 
   test("Não deve permitir editar uma postagem inexistente", async () => {
     const response = await request(app)
-      .patch("/post/999999") 
+      .patch("/post/999999")
       .send({ title: "Post Editado", body: "Este é o corpo editado." });
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe("Postagem não encontrada.");
   });
- 
+
   afterAll(async () => {
     await pool.end(); // Fecha a conexão com o banco de dados
   });
