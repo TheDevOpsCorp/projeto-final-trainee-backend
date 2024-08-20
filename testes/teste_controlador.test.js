@@ -61,7 +61,7 @@ describe("Edição de Postagem", () => {
     expect(response.status).toBe(404);
     expect(response.body.message).toBe("Postagem não encontrada.");
   });
-  test("")
+ 
   afterAll(async () => {
     await pool.end(); // Fecha a conexão com o banco de dados
   });
