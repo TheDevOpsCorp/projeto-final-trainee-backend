@@ -1,7 +1,8 @@
 // src/database/db.js
 
-import pkg from 'pg';
-const { Pool } = pkg;
+import pkg from 'pg'; // Importando o módulo pg como um todo
+const { Pool } = pkg; // Desestruturando para obter o Pool
+
 
 
 // Configurações de conexão com o banco de dados

@@ -1,40 +1,75 @@
-import supertest from 'supertest';
-import app from '../src/index.js';
+// tests/posts.test.js
+import request from 'supertest'; 
+import app from '../src/index.js'; 
+import pool from '../src/database/database.js'; 
+
+
+describe('Edição de Postagem', () => {
+  let post_Id; 
+  const userId = 1; 
+ beforeAll(async () => {
+    try {
+const postResponse = await pool.query('INSERT INTO posts (title, body, user_id) VALUES ($1, $2, $3) RETURNING id', [
+      'Post Original',
+      'Este é o corpo original.',
+      userId ]);
+ 
+    post_Id = postResponse.rows[0].id;
+  } catch (error) {
+       console.error("Error ao criar postagem", error.message)
+  }
+  });
+    
+
+    
 
  
 
-describe('PATCH/post/:id_posts, updateById', () => {
-  // Dados para atualizar o post
-  const teste = {
-    title: 'titulo editado',
-    body: 'corpo editado'
-  };
+  test('Deve editar uma postagem existente', async () => {
+    const response = await request(app)
+      .patch(`/post/${post_Id}`) // Rota de edição de postagem
+      .send({ title: 'Post Editado', body: 'Este é o corpo editado.' });
 
-  // ID da postagem para testar a atualização
-  const id_posts = 1; // Substitua pelo ID que você deseja testar
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Postagem editada com sucesso.');
 
-  it('deve atualizar um post e retornar o status 200', async () => {
-    const res = await supertest(app)
-      .patch(`/post/${id_posts}`) // Inclua o ID na URL
-      .send(teste)
-      .expect('Content-Type', /json/)
-      .expect(200); // Ajuste para o status esperado em uma atualização bem-sucedida
-
-    // Adicione outras asserções conforme necessário
-    expect(res.body.message).toBe('Postagem editada com sucesso');
-    expect(res.body.post).toHaveProperty('title', 'titulo editado');
-    expect(res.body.post).toHaveProperty('body', 'corpo editado');
+    const updatedPost = await pool.query('SELECT * FROM posts WHERE id = $1', [post_Id]);
+    expect(updatedPost.rows[0].title).toBe('Post Editado');
+    expect(updatedPost.rows[0].body).toBe('Este é o corpo editado.');
+    expect(updatedPost.rows[0].updated_at).toBeTruthy(); // Verifica se o campo de data foi atualizado
   });
 
-  // Teste para erro de solicitação inválida
-  it('deve retornar o status 400 para solicitação inválida', async () => {
-    const res = await supertest(app)
-      .patch(`/post/${id_posts}`)
-      .send({}) // Enviar um corpo de solicitação inválido
-      .expect('Content-Type', /json/)
-      .expect(400); // Ajuste para o status esperado em um erro de solicitação
-
-    expect(res.body.message).toBe('Postagem não encontrada');
+  test ('Não deve permitir editar uma postagem sem titulo', async () =>{
+     const response = await request(app)
+     .patch(`/post/${post_Id}`)
+     .send({body: 'Este é o corpo editado'});
+     expect(response.status).toBe(400);
+     expect(response.body.message).toBe('Título e corpo são obrigatórios.');
+  });  
+  test ("Não deve permitir postagem sem corpo", async()=>{
+    const response = await request(app)
+    .patch(`/post/${post_Id}`)
+      .send({title: 'Este é o titulo editado'});
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe('Título e corpo são obrigatórios.')
+    
   });
- });
 
+
+
+
+  test('Não deve permitir editar uma postagem inexistente', async () => {
+    const response = await request(app)
+      .patch('/post/999999') // ID de postagem que não existe
+      .send({ title: 'Post Editado', body: 'Este é o corpo editado.' });
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Postagem não encontrada.');
+  });
+ 
+
+
+    afterAll(async () => {
+    await pool.end(); // Fecha a conexão com o banco de dados
+  });
+});

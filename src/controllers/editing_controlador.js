@@ -1,46 +1,55 @@
-import {updatePostById,getPostByIdAndUserId,} from "../models/editing_models.js";
-
+// controllers/postController.js
+import pool from "../database/database.js";
 /**
- * Atualiza uma postagem pelo ID
- * @param {*} req - Requisição do clientey
  *
- * @param {*} res - Resposta do servidor
+ * @param {*} req
+ * @param {*} res
  * @returns
  */
-
-
+// Método para atualizar a postagem pelo ID
 const updateById = async (req, res) => {
-  const { id_posts } = req.params;   // ID da postagem obtido dos parâmetros da URL
-  const { title, body } = req.body; // Dados da postagem obtidos do corpo da requisição
-  const user_id = req.user_id;     // ID do usuário autenticado
+  const { title, body } = req.body;
+  const post_Id = req.params.id_post;
   
 
+ 
   if (!title || !body) {
-    return res.status(400).json({ message: "Postagem não encontrada" });
+    console.warn("Validação falhou: Título ou corpo estão vazios.");
+    return res
+      .status(400)
+      .json({ message: "Título e corpo são obrigatórios." });
   }
+
   try {
-    
-// Verifica se a postagem existe e se pertence ao usuário autenticado
-    const post = await getPostByIdAndUserId(Number(id_posts), user_id);
-    if (!post) {
-      return res
-        .status(404)
-        .json({ message: "Postagem não encontrada ou não autorizada" });
+    const query = `
+      UPDATE posts
+      SET title = $1, body = $2, updated_at = NOW()
+      WHERE id = $3 AND user_id = $4
+      RETURNING *;
+      
+    `
+    const values = [title, body, post_Id ,req.user.id];
+    console.log("Executando consulta:", { query, values });
+
+    const result = await pool.query(query, values);
+    console.log("Resultado da consulta:", result);
+
+    const updatedPost = result.rows[0];
+
+    if (!updatedPost) {
+      return res.status(404).json({
+        message: "Postagem não encontrada.",
+      });
     }
+    return res.status(200).json({message: "Postagem editada com sucesso.", post:updatedPost})
 
-    // Atualiza a postagem
-    await updatePostById(id_posts, title, body, user_id);
-    return res.status(200).json({ message: "Postagem editada com sucesso" });
-
-    // Retorna a resposta com a postagem atualizada
+    res.status(200).json(updatedPost);
   } catch (error) {
-    console.error(error); // Exibe o erro completo no console
-    const errorMessage =
-      error instanceof Error ? error.message : "Erro desconhecido";
-    res.status(500).json({
-      message: "Erro ao atualizar a postagem",
-      error: errorMessage,
-    });
+    
+    console.error("erro ao atualizar postagem", error);
+    res
+      .status(500)
+      .json({ message: "Ocorreu um erro ao atualizar a postagem." });
   }
 };
 
