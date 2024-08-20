@@ -2,12 +2,10 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import router from "./routes/routes.js";
-import { configDotenv } from "dotenv";
-
 
 const port = 3000;
 const app = express();
-configDotenv
+
 //middlewares obrigatorios
 app.use(express.json());
 app.use(helmet());
@@ -16,7 +14,6 @@ app;
 //roteador
 app.use("/", router);
 //middlewares tratamento de erros
-
 
 //entrypoint
 app.listen(port, () => {

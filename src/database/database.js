@@ -1,9 +1,5 @@
-// src/database/db.js
-
-import pkg from 'pg'; // Importando o módulo pg como um todo
-const { Pool } = pkg; // Desestruturando para obter o Pool
-
-
+import pkg from "pg";
+const { Pool } = pkg;
 
 // Configurações de conexão com o banco de dados
 const pool = new Pool({
@@ -15,3 +11,8 @@ const pool = new Pool({
 });
 
 export default pool;
+
+
+
+
+
