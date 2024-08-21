@@ -20,7 +20,9 @@
   "homepage": "https://github.com/TheDevOpsCorp/trainee-backend#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "pg": "^8.12.0"
@@ -32,12 +34,18 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
+    "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/pg": "^8.11.6",
+    "@types/supertest": "^6.0.2",
     "commitlint": "^19.3.0",
     "husky": "^9.1.4",
     "jest": "^29.7.0",
     "semantic-release": "^24.0.0",
+    "supertest": "^7.0.0",
     "typescript": "^5.5.4"
   }
 }
