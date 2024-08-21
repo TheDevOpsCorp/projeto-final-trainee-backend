@@ -13,6 +13,23 @@ describe("POST user/create : signIn", () => {
     await pool.query('DELETE FROM "users" WHERE username = $1', [body.name]);
   });
 
+  it("Pass 200: O usuário deve ser criado corretamente", async () => {
+    await supertest(app)
+      .post("/user/signin")
+      .send(body)
+      .expect((res) => {
+        const { status, body } = res;
+
+        if (status != 200) {
+          throw new Error(
+            `Status deveria ser 200, mas retorna ${status} - Body: \n${JSON.stringify(
+              body
+            )}\n`
+          );
+        }
+      });
+  });
+
   it("Error 400: O teste deve falher se o body estiver incompleto", async () => {
     const bodyError400 = {
       name: "",
@@ -36,16 +53,16 @@ describe("POST user/create : signIn", () => {
       });
   });
 
-  it("Pass 200: O usuário deve ser criado corretamente", async () => {
+  it("Error 409: O cadastro de novo usuário deve falahar se já existir um usuário com o mesmo nome.", async () => {
     await supertest(app)
       .post("/user/signin")
       .send(body)
       .expect((res) => {
         const { status, body } = res;
 
-        if (status != 200) {
+        if (status != 409) {
           throw new Error(
-            `Status deveria ser 200, mas retorna ${status} - Body: \n${JSON.stringify(
+            `Satatus deveria ser 409, mas retorna ${status} - Body: \n${JSON.stringify(
               body
             )}\n`
           );
