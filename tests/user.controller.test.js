@@ -13,6 +13,29 @@ describe("POST user/create : signIn", () => {
     await pool.query('DELETE FROM "users" WHERE username = $1', [body.name]);
   });
 
+  it("Error 400: O teste deve falher se o body estiver incompleto", async () => {
+    const bodyError400 = {
+      name: "",
+      password: "",
+      creAt: "",
+    };
+
+    await supertest(app)
+      .post("/user/signin")
+      .send(bodyError400)
+      .expect((res) => {
+        const { body, status } = res;
+
+        if (status != 400) {
+          throw new Error(
+            `Status deveria ser 400, mas recebe ${status} - Body: \n${JSON.stringify(
+              body
+            )}\n\n`
+          );
+        }
+      });
+  });
+
   it("Pass 200: O usuário deve ser criado corretamente", async () => {
     await supertest(app)
       .post("/user/signin")
