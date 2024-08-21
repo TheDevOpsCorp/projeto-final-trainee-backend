@@ -12,4 +12,21 @@ describe("POST user/create : signIn", () => {
   afterAll(async () => {
     await pool.query('DELETE FROM "users" WHERE username = $1', [body.name]);
   });
+
+  it("Pass 200: O usuário deve ser criado corretamente", async () => {
+    await supertest(app)
+      .post("/user/signin")
+      .send(body)
+      .expect((res) => {
+        const { status, body } = res;
+
+        if (status != 200) {
+          throw new Error(
+            `Status deveria ser 200, mas retorna ${status} - Body: \n${JSON.stringify(
+              body
+            )}\n`
+          );
+        }
+      });
+  });
 });
