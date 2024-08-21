@@ -10,11 +10,19 @@ export default {
   signIn: async function (req, res) {
     try {
       const body = req.body;
+      const regex = /^[a-zA-Z0-9_]+$/;
 
       if (!body || !body.name || !body.password || !body.creAt) {
         return res
           .status(400)
           .json({ menssage: "400 - Bad request: Body incompleto" });
+      }
+
+      if (!regex.test(body.name)) {
+        return res.status(400).json({
+          menssage:
+            '400 - Bad request: O nome de usuário deve se restringir a: a-z, A-Z, 0-9 e "_" apenas.',
+        });
       }
 
       const checkSame = await pool.query(
