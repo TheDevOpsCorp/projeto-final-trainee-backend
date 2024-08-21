@@ -11,6 +11,12 @@ export default {
     try {
       const body = req.body;
 
+      if (!body || !body.name || !body.password || !body.creAt) {
+        return res
+          .status(400)
+          .json({ menssage: "400 - Bad request: Body incompleto" });
+      }
+
       const hashPassword = await bcrypt.hash(body.password, 10);
       const dbRes = await pool.query(
         `INSERT INTO "users" ("username", "password", "created_at") VALUES ('${body.name}', '${hashPassword}', '${body.creAt}') RETURNING *`
