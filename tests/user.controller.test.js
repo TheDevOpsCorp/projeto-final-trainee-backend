@@ -26,6 +26,8 @@ describe("POST user/create : signIn", () => {
               body
             )}\n`
           );
+        } else {
+          console.log(`Test error 200 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
@@ -49,6 +51,8 @@ describe("POST user/create : signIn", () => {
               body
             )}\n\n`
           );
+        } else {
+          console.log(`Test error 400 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
@@ -66,6 +70,33 @@ describe("POST user/create : signIn", () => {
               body
             )}\n`
           );
+        } else {
+          console.log(`Test error 409 sucess! - Body: ${JSON.stringify(body)}`);
+        }
+      });
+  });
+
+  it("Error 400: O cadastro deve falhar se o nome de usuário não seguir o padão de escrita.", async () => {
+    const bodyError400 = {
+      name: "$-M4n3r1n0-$",
+      password: "123",
+      creAt: "2024-08-21",
+    };
+
+    await supertest(app)
+      .post("/user/signin")
+      .send(bodyError400)
+      .expect((res) => {
+        const { status, body } = res;
+
+        if (status != 400) {
+          throw new Error(
+            `Satatus deveria ser 400, mas retorna ${status} - Body: \n${JSON.stringify(
+              body
+            )}\n`
+          );
+        } else {
+          console.log(`Test error 400 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
