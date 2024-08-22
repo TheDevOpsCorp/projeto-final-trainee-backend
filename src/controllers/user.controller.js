@@ -45,9 +45,6 @@ export default {
       );
 
       if (dbRes.rows.length > 0) {
-        console.log(
-          `Log criação de usuário: \n${JSON.stringify(dbRes.rows[0])}\n\n`
-        );
         return res
           .status(200)
           .json({ menssage: "200 - Sucess: Usuário inserido com sucesso!" });

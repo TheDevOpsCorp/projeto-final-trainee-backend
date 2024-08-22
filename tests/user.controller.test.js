@@ -26,8 +26,6 @@ describe("POST user/create : signIn", () => {
               body
             )}\n`
           );
-        } else {
-          console.log(`Test error 200 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
@@ -51,8 +49,6 @@ describe("POST user/create : signIn", () => {
               body
             )}\n\n`
           );
-        } else {
-          console.log(`Test error 400 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
@@ -70,8 +66,6 @@ describe("POST user/create : signIn", () => {
               body
             )}\n`
           );
-        } else {
-          console.log(`Test error 409 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
@@ -95,8 +89,6 @@ describe("POST user/create : signIn", () => {
               body
             )}\n`
           );
-        } else {
-          console.log(`Test error 400 sucess! - Body: ${JSON.stringify(body)}`);
         }
       });
   });
