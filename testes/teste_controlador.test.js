@@ -7,11 +7,19 @@ describe("Edição de Postagem", () => {
    * @type {any}
    */
   let post_Id;
-
-  const userId = 1; 
+  /**
+   * @type {any}
+  */
+  let userId;
 
   beforeAll(async () => {
     try {
+      const userResponse = await pool.query(
+        "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id",
+        ["NomeDoUsuario", "SenhaSegura"]
+      );
+      userId = userResponse.rows[0].id;
+
       const postResponse = await pool.query(
         "INSERT INTO posts (title, body, user_id) VALUES ($1, $2, $3) RETURNING id",
         ["title original", "body original", userId]
@@ -27,22 +35,21 @@ describe("Edição de Postagem", () => {
 
   describe("Edição de Título", () => {
     test("Deve permitir editar somente o título", async () => {
+
       const response = await request(app)
         .patch(`/post/${post_Id}`)
-        .send({ title: "Post Editado" }); 
+        .send({ title: "Post Editado", user: userId });
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe("Postagem editada com sucesso.");
 
-      const updatedPost = await pool.query("SELECT * FROM posts WHERE id = $1", [
-        post_Id,
-      ]);
+      const updatedPost = await pool.query(
+        "SELECT * FROM posts WHERE id = $1",
+        [post_Id]
+      );
       expect(updatedPost.rows[0].title).toBe("Post Editado");
       expect(updatedPost.rows[0].body).toBe("body original"); // O corpo deve permanecer o mesmo
       expect(updatedPost.rows[0].updated_at).toBeTruthy(); // Verifica se o campo de data foi atualizado
-
-      
-      
     });
   });
 
@@ -54,17 +61,18 @@ describe("Edição de Postagem", () => {
       ]);
       const response = await request(app)
         .patch(`/post/${post_Id}`)
-        .send({ body: "Este é o corpo editado." });
+        .send({ body: "Este é o corpo editado.",user: userId });
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe("Postagem editada com sucesso.");
 
-      const updatedPost = await pool.query("SELECT * FROM posts WHERE id = $1", [
-        post_Id,
-      ]);
-      expect(updatedPost.rows[0].title).toBe("title original"); 
-      expect(updatedPost.rows[0].body).toBe("Este é o corpo editado."); 
-      expect(updatedPost.rows[0].updated_at).toBeTruthy(); 
+      const updatedPost = await pool.query(
+        "SELECT * FROM posts WHERE id = $1",
+        [post_Id]
+      );
+      expect(updatedPost.rows[0].title).toBe("title original");
+      expect(updatedPost.rows[0].body).toBe("Este é o corpo editado.");
+      expect(updatedPost.rows[0].updated_at).toBeTruthy();
     });
   });
 
@@ -72,23 +80,25 @@ describe("Edição de Postagem", () => {
     test("Deve editar uma postagem existente", async () => {
       const response = await request(app)
         .patch(`/post/${post_Id}`)
-        .send({ title: "Post Editado", body: "Este é o corpo editado." });
+        .send({ title: "Post Editado", body: "Este é o corpo editado." , user: userId});
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe("Postagem editada com sucesso.");
 
-      const updatedPost = await pool.query("SELECT * FROM posts WHERE id = $1", [
-        post_Id,
-      ]);
+      const updatedPost = await pool.query(
+        "SELECT * FROM posts WHERE id = $1",
+        [post_Id]
+      );
+      
       expect(updatedPost.rows[0].title).toBe("Post Editado");
       expect(updatedPost.rows[0].body).toBe("Este é o corpo editado.");
-      expect(updatedPost.rows[0].updated_at).toBeTruthy(); 
+      expect(updatedPost.rows[0].updated_at).toBeTruthy();
     });
   });
 
   describe("Validações de Edição", () => {
     test("Não deve permitir editar com campos vazios", async () => {
-      const response = await request(app).patch(`/post/${post_Id}`).send({});
+      const response = await request(app).patch(`/post/${post_Id}`).send({user: userId});
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe(
@@ -99,7 +109,7 @@ describe("Edição de Postagem", () => {
     test("Não deve permitir editar uma postagem inexistente", async () => {
       const response = await request(app)
         .patch("/post/999999")
-        .send({ title: "Post Editado", body: "Este é o corpo editado." });
+        .send({ title: "Post Editado", body: "Este é o corpo editado.",user: userId });
 
       expect(response.status).toBe(404);
       expect(response.body.message).toBe("Postagem não encontrada.");
@@ -107,6 +117,6 @@ describe("Edição de Postagem", () => {
   });
 
   afterAll(async () => {
-    await pool.end(); 
+    await pool.end();
   });
 });
