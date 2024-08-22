@@ -22,7 +22,7 @@ export default {
    * @async
    */
   // @ts-ignore
-  async authenticatJWT(req, res, next) {
+  async authenticateJWT(req, res, next) {
     let token;
     try {
       token = getToken(req);
