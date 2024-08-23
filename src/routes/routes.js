@@ -3,7 +3,7 @@ import postController from '../controllers/post.controller.js';
 
 const  router = Router()
 
-router.post('/createpost', postController.createPost)
+router.post('/post', postController.createPost)
 
 
 
