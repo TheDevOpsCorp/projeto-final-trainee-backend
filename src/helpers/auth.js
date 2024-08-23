@@ -4,8 +4,10 @@
  *
  */
 import jwt from 'jsonwebtoken';
-import moment from 'moment';
-const JWT_SECRET = `${process.env['JWT_SECRET']}`;
+const JWT_SECRET = process.env['JWT_SECRET'];
+if (!JWT_SECRET) {
+    process.exit(1);
+}
 
 const defaultExpirationDate = '1hr';
 
@@ -17,13 +19,12 @@ class JsonWebTokenError extends Error { }
  *
  *
  * @param {String} token
- * @param {jwt.VerifyOptions | undefined} [options={}]
  * @throws {JsonWebTokenError}
  * @throws {TokenExpiredError}
  */
-function decodeJWT(token, options = undefined) {
+function decodeJWT(token) {
     try {
-        return jwt.verify(token, JWT_SECRET, options);
+        return jwt.verify(token, JWT_SECRET);
     } catch (/** @type {any}*/ err) {
         if (err?.name === 'TokenExpiredError') {
             throw new TokenExpiredError('token expirado');
@@ -46,7 +47,7 @@ function getToken(req) {
         throw new Error('sem token de autorização ou nome errado');
     }
     const headerDiv = bearerToken.split(' ');
-    if (headerDiv[0] != 'Bearer' || headerDiv.length === 0) {
+    if (headerDiv[0] != 'Bearer' || headerDiv.length !== 2) {
         throw new Error('formato invalido');
     }
     return headerDiv[1];
@@ -60,7 +61,7 @@ function getToken(req) {
 function signJWT(payload, options = {}) {
     options.expiresIn = options.expiresIn || defaultExpirationDate;
     options.subject = `${payload.id}`;
-    payload.iat = moment().unix();
+    payload.iat = Math.floor(Date.now() / 1000);
     return jwt.sign(payload, JWT_SECRET, options);
 }
 
