@@ -4,7 +4,7 @@ export default {
         // @ts-ignore
     createPost:async(req,res)=>{
         // @ts-ignore
-        let {user_id,title,body,date} = req.body
+        let {user_id,title,body} = req.body
         if(!user_id||!title||!body){
              return res.status(400).json({message:"400 : preencha todos os dados"})
         }
