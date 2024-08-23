@@ -16,7 +16,7 @@ describe("POST /post", () => {
       };
       console.log(post)
       await supertest(app)
-        .post("/post")
+        .post("/posts")
         .send(post)
         .expect(201)
         // @ts-ignore
@@ -41,7 +41,7 @@ describe("POST /post", () => {
         date:"2024-08-15 13:45:00"
       };
       await supertest(app)
-        .post("/post")
+        .post("/posts")
         .send(post)
         .expect(400)
         // @ts-ignore
@@ -61,7 +61,7 @@ describe("POST /post", () => {
         body: "lucasemanoel",
       };
       await supertest(app)
-        .post("/post")
+        .post("/posts")
         .send(post)
         .expect(400)
         // @ts-ignore
