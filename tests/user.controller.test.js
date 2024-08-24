@@ -57,7 +57,7 @@ describe("POST user/create : signIn", () => {
       });
   });
 
-  it("Error 409: O cadastro de novo usuário deve falahar se já existir um usuário com o mesmo nome.", async () => {
+  it("Error 409: O cadastro de novo usuário deve falhar se já existir um usuário com o mesmo nome.", async () => {
     await supertest(app)
       .post("/user/signin")
       .send(body)
