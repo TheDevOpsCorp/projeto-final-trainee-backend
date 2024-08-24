@@ -32,7 +32,7 @@ describe("POST user/create : signIn", () => {
       });
   });
 
-  it("Error 400: O teste deve falher se o body estiver incompleto", async () => {
+  it("Error 400: O teste deve falhar se o body estiver incompleto", async () => {
     const bodyError400 = {
       name: "",
       password: "",
