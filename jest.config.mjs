@@ -60,7 +60,7 @@ const config = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: undefined,
+  globalSetup: "./jest.setup.js",
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: undefined,
@@ -77,16 +77,16 @@ const config = {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "mjs",
-  //   "cjs",
-  //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
-  //   "node"
-  // ],
+  moduleFileExtensions: [
+    "js",
+    "mjs",
+    "cjs",
+    "jsx",
+    "ts",
+    "tsx",
+    "json",
+    "node",
+  ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -154,10 +154,7 @@ const config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
