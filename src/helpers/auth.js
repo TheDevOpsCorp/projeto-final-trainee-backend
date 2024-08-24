@@ -58,11 +58,31 @@ function getToken(req) {
  * @param {jwt.SignOptions} [options={ expiresIn: defaultTokenExpiration }]
  * @returns {String}
  */
-function signJWT(payload, options = {}) {
+function testsignJWT(payload, options = {}) {
     options.expiresIn = options.expiresIn || defaultExpirationDate;
     options.subject = `${payload.id}`;
     payload.iat = Math.floor(Date.now() / 1000);
     return jwt.sign(payload, JWT_SECRET, options);
 }
 
-export { decodeJWT, getToken, TokenExpiredError, JsonWebTokenError, signJWT };
+/**
+ *
+ * @param {Object.<any, any>} payload
+ * @returns {String}
+ */
+function signJWT(payload) {
+    /** @type {jwt.SignOptions} */
+    let options = {};
+    options.expiresIn = options.expiresIn || defaultExpirationDate;
+    options.subject = `${payload.id}`;
+    payload.iat = Math.floor(Date.now() / 1000);
+    return jwt.sign(payload, JWT_SECRET, options);
+}
+export {
+    decodeJWT,
+    getToken,
+    TokenExpiredError,
+    JsonWebTokenError,
+    testsignJWT,
+    signJWT
+};
