@@ -76,7 +76,7 @@ describe("POST user/create : signIn", () => {
       });
   });
 
-  it("Error 400: O cadastro deve falhar se o nome de usuário não seguir o padão de escrita.", async () => {
+  it("Error 400: O cadastro deve falhar se o nome de usuário não seguir o padrão de escrita.", async () => {
     const bodyError400 = {
       name: "$-M4n3r1n0-$",
       password: "123",
