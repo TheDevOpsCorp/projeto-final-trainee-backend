@@ -5,7 +5,7 @@ import pool from "../database/conection.js";
 
 
 // @ts-ignore
-describe("POST /post", () => {
+describe("POST /posts", () => {
     // @ts-ignore
     it("201:post criado com sucesso", async () => {
       let user  = await pool.query('INSERT INTO users (username,password,created_at) VALUES (\'lucas\',\'lucas\',NOW()) RETURNING *')
