@@ -56,12 +56,12 @@ export default {
     } catch (error) {
       if (error instanceof AggregateError) {
         error.errors.forEach((err) => {
-          console.error(`Error: \n${err}\n`);
+          console.error(`Catch Aggregate Error: \n${err}\n`);
         });
+        return;
       } else {
-        console.error(`Error: \n${error}\n`);
+        return res.status(500).json(`Catch error: \n${error}\n`);
       }
-      return res.status(500).json(`Catch error: \n${error}\n`);
     }
   },
 };
