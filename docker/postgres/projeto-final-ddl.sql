@@ -5,14 +5,14 @@ CREATE TABLE "follows" (
 );
 
 CREATE TABLE "users" (
-  "id" integer PRIMARY KEY,
+  "id" serial PRIMARY KEY,
   "username" varchar NOT NULL,
   "password" varchar NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT 'NOW()'
 );
 
 CREATE TABLE "posts" (
-  "id" integer PRIMARY KEY NOT NULL,
+  "id" serial PRIMARY KEY,
   "title" varchar NOT NULL,
   "body" text NOT NULL,
   "user_id" integer NOT NULL,
@@ -21,8 +21,9 @@ CREATE TABLE "posts" (
 
 COMMENT ON COLUMN "posts"."body" IS 'Content of the post';
 
-ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "follows" ADD FOREIGN KEY ("following_user_id") REFERENCES "users" ("id");
+ALTER TABLE "follows" ADD FOREIGN KEY ("following_user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "follows" ADD FOREIGN KEY ("followed_user_id") REFERENCES "users" ("id");
+ALTER TABLE "follows" ADD FOREIGN KEY ("followed_user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+
