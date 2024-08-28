@@ -1,3 +1,6 @@
+import { configDotenv } from "dotenv";
+configDotenv();
+
 import pg from "pg";
 
 const { Pool } = pg;
