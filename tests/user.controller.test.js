@@ -3,10 +3,11 @@ import app from "../src/index.js";
 import { pool } from "../src/database/database.js";
 
 describe("POST user/create : signIn", () => {
+  const dateNow = new Date().toUTCString();
   const body = {
     name: "test",
     password: "123",
-    creAt: "2024-08-20",
+    creAt: dateNow,
   };
 
   afterAll(async () => {
@@ -72,9 +73,9 @@ describe("POST user/create : signIn", () => {
 
   it("Error 400: O cadastro deve falhar se o nome de usuário não seguir o padrão de escrita.", async () => {
     const bodyError400 = {
-      name: "$-M4n3r1n0-$",
+      name: "$-M4n3r1nH0-$",
       password: "123",
-      creAt: "2024-08-21",
+      creAt: dateNow,
     };
 
     await supertest(app)

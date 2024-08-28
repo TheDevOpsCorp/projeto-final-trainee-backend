@@ -9,10 +9,11 @@ export default {
 
   signIn: async function (req, res) {
     try {
+      const dateNow = new Date().toUTCString();
       const body = req.body;
       const regex = /^[a-zA-Z0-9_]+$/;
 
-      if (!body || !body.name || !body.password || !body.creAt) {
+      if (!body || !body.name || !body.password) {
         return res
           .status(400)
           .json({ menssage: "400 - Bad request: Body incompleto" });
@@ -21,7 +22,7 @@ export default {
       if (!regex.test(body.name)) {
         return res.status(400).json({
           menssage:
-            '400 - Bad request: O nome de usuário deve se restringir a: a-z, A-Z, 0-9 e "_" apenas.',
+            "400 - Bad request: O nome de usuário deve se restringir a: a-z, A-Z, 0-9 e '_' apenas.",
         });
       }
 
@@ -41,7 +42,7 @@ export default {
 
       const dbRes = await pool.query(
         'INSERT INTO "users" ("username", "password", "created_at") VALUES ($1, $2, $3) RETURNING *',
-        [body.name, hashPassword, body.creAt]
+        [body.name, hashPassword, dateNow]
       );
 
       if (dbRes.rows.length > 0) {
